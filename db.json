@@ -9,8 +9,8 @@
       "id": 1
     },
     {
-      "name": "prueba",
-      "type": "Tarea Prioritaria",
+      "name": "Prueba",
+      "type": "Tarea De Corto Alcance",
       "timecreate": "18/12/2022",
       "timefinish": "16/12/2022",
       "status": 1,
