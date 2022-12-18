@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script defer src="js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .text-finish {
+            text-decoration: line-through !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid text-center my-3">
+
+    <button id="new_task" type="button" class="btn btn-primary">Crear Nueva Tarea</button>
+    <button id="back_index" style="display: none" type="button" class="btn btn-warning">Volver Al Inicio</button>
+
+    <div id="index" style="display: block;" class="mx-auto mt-5 row">
+        <div class="col-12 d-flex justify-content-around mb-3 text-center">
+            <button type="button" class="btn btn-warning text-center">
+                T. Pendientes <span id="pending" class="badge badge-light"></span>
+            </button>
+            <button type="button" class="btn btn-success d-block text-center">
+                T. Terminadas <span id="finish" class="badge badge-light"></span>
+            </button>
+            <button type="button" class="btn btn-danger text-center">
+                T. Eliminadas <span id="delete" class="badge badge-light"></span>
+            </button>
+        </div>
+
+        <form class="form-inline my-2 my-lg-0 col-12 d-block mx-auto">
+            <input class="form-control mr-sm-2" type="search" name="search" id="search" placeholder="Search"
+                   aria-label="Search">
+        </form>
+
+        <div id="tasks" class="row col-12">
+
+        </div>
+
+        <template class="template-card">
+            <div class="col-sm-6">
+                <div class="card my-2">
+                    <div class="card-body">
+                        <h5 class="card-title h3">Special title treatment</h5>
+                        <p class="card-text task-type h4"></p>
+                        <p class="card-text task-date h5">
+                            <span class="date-created"></span>
+                            <span class="date-finish"></span>
+                        </p>
+                        <a class="btn btn-success text-white finish-task">Finalizar</a>
+                        <a class="btn btn-warning text-white edit-task">Editar</a>
+                        <a class="btn btn-danger text-white delete-task">Eliminar</a>
+                    </div>
+
+                    <form id="edit-task" class="w-75 mx-auto" style="display: none;">
+                        <div class="form-group">
+                            <label for="name_task">Nombre de la tarea</label>
+                            <input type="text" class="form-control" id="edit_name_task" name="name_task">
+                            <div id="edit_name_task_feedback" class="valid-feedback">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_task">Tipo De Tarea</label>
+                            <select class="form-control" id="edit_type_task" name="type_task">
+                                <option class="text-danger" value="Tarea Prioritaria">Tarea Prioritaria</option>
+                                <option class="text-warning" value="Tarea De Corto Alcance">Tarea De Corto Alcance
+                                </option>
+                                <option class="text-primary" value="Tarea Prioridad Baja">Tarea Prioridad Baja</option>
+                                <option class="text-success" value="Mejora">Mejora</option>
+                            </select>
+                            <div id="edit_type_task_feedback" class="valid-feedback">
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary mb-2" value="Editar Tarea">
+                    </form>
+
+                </div>
+
+            </div>
+        </template>
+
+    </div>
+    <div id="content_new_task" style="display: none" class="mx-auto mt-5 w-50">
+        <form id="create_task">
+            <div class="form-group">
+                <label for="name_task">Nombre de la tarea</label>
+                <input type="text" class="form-control" id="name_task" name="name_task"
+                       placeholder="Hacer los deberes...">
+                <div id="name_task_feedback" class="valid-feedback">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="type_task">Tipo De Tarea</label>
+                <select class="form-control" id="type_task" name="type_task">
+                    <option class="text-danger">Tarea Prioritaria</option>
+                    <option class="text-warning">Tarea De Corto Alcance</option>
+                    <option class="text-primary">Tarea Prioridad Baja</option>
+                    <option class="text-success">Mejora</option>
+                </select>
+                <div id="type_task_feedback" class="valid-feedback">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="task_finish">Fecha Fin</label>
+                <input type="date" class="form-control" id="task_finish" name="task_finish">
+                <div id="task_finish_feedback" class="valid-feedback">
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary mb-2" value="Crear Tarea">
+        </form>
+    </div>
+</div>
+
+<div class="chart-container" style="height:40vh; width:80vw">
+    <canvas id="grafico"></canvas>
+</div>
+
+</body>
+</html>

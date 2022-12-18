@@ -1,0 +1,8 @@
+{
+  "name": "Proyecto_ToDo",
+  "version": "1.0.0",
+  "main": "index.html",
+  "scripts": {
+    "start": "json-server -w -p 8080 ./db.json"
+  }
+}
