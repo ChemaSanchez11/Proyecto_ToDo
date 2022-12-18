@@ -1,3 +1,8 @@
+/*
+    @autor: Chema SM
+    @version: 1.0.0
+    @description: Tareas
+*/
 
 //Botones
 const $btnNewTask = document.querySelector('#new_task');
@@ -10,6 +15,7 @@ const $divIndex = document.querySelector('#index');
 //Form
 const $form = document.querySelector('#create_task');
 
+//Funcion que carga el HTML y sus funciones de las tasks
 init();
 
 async function init() {
@@ -21,6 +27,8 @@ async function init() {
     document.querySelector('#finish').textContent = finishTasks;
     document.querySelector('#delete').textContent = deleteTasks;
 
+
+    //Cargamos el grafico
     const ctx = document.getElementById('grafico');
 
     let myChart = new Chart(ctx, {
@@ -36,11 +44,12 @@ async function init() {
         }
     });
 
-
+    //Herramientas de las tareas (FINALIZAR, EDITAR, BORRAR)
     toolsTasks();
 
-    const $search = document.querySelector('#search');
 
+    //Buscar una tarea
+    const $search = document.querySelector('#search');
     $search.addEventListener('keyup', async function (event) {
         let valor = event.target.value;
         const res = await fetch("http://localhost:8080/tareas"), tasks = await res.json();
@@ -58,8 +67,10 @@ async function init() {
         tasks.forEach(task => {
             let name = task.name;
 
+            //comprueba que el nombre contenga ese valor
             if (name.includes(valor)) {
 
+                //Borra todas las tareas del HTML
                 while ($tasks.firstChild) {
                     $tasks.removeChild($tasks.lastChild);
                 }
@@ -94,12 +105,14 @@ async function init() {
 
         $tasks.append($fragment);
 
+        //Carga las herramientas
         toolsTasks();
 
     });
 
 }
 
+//Mostramos el formulario de creacion de tarea
 
 $btnNewTask.addEventListener('click', (event) => {
     event.preventDefault();
@@ -108,9 +121,11 @@ $btnNewTask.addEventListener('click', (event) => {
 
 });
 
+//Creacion de la nueva tarea
 $form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    //Recojo los datos con formData
     const formData = new FormData($form);
 
     const status = verifyForm(formData);
@@ -141,6 +156,7 @@ $form.addEventListener('submit', async (event) => {
         status: 0,
     }
 
+    //Se almacenan en el JSON-Server
     try {
         const options = {
             method: "POST", headers: {
@@ -159,18 +175,11 @@ $form.addEventListener('submit', async (event) => {
         console.log(exception.statusText);
     }
 
-    //
-    // if (localStorage.getItem("tasks") === null) {
-    //     localStorage.setItem('tasks', JSON.stringify([newTask]));
-    // } else {
-    //     let tasks = JSON.parse(localStorage.getItem("tasks"));
-    //     tasks.push(newTask);
-    //     localStorage.setItem('tasks', JSON.stringify(tasks));
-    // }
 
 
 });
 
+//Mostramos el indice
 $btnIndex.addEventListener('click', (event) => {
     event.preventDefault();
 
@@ -180,6 +189,7 @@ $btnIndex.addEventListener('click', (event) => {
 
 function showHTML(action) {
 
+    //Si es show-index mostramos las tareas
     if (action === 'show-index') {
 
         $btnIndex.style.display = 'none';
@@ -200,6 +210,11 @@ function showHTML(action) {
         console.error('No he podido interpretar la accion ' + action);
     }
 }
+
+/**
+ * Comprueba el formulario y añade elementos en el html si no es correcto
+ * @return boolean
+ */
 
 function verifyForm(formData) {
 
@@ -224,6 +239,10 @@ function verifyForm(formData) {
     return valid;
 }
 
+/**
+ * Carga todas las tareas las pinta en el html y devuelves los datos
+ * @return array
+ */
 async function loadTasks() {
 
     let pendingTasks = 0, finishTasks = 0, deleteTasks = 0;
@@ -253,10 +272,12 @@ async function loadTasks() {
             $card.querySelector('.finish-task').classList.add('btn-secondary', 'disabled');
         }
 
+        //Seteamos las data-id
         $clonado.querySelector('.delete-task').dataset.id = task.id;
         $clonado.querySelector('.edit-task').dataset.id = task.id;
         $clonado.querySelector('.finish-task').dataset.id = task.id;
 
+        //Ponemos los valores
         $clonado.querySelector('.card-title').textContent = task.name;
         $clonado.querySelector('.task-type').textContent = `Tipo: ${task.type}`;
         $clonado.querySelector('.date-created').textContent = `Creado: ${task.timecreate}`;
@@ -268,6 +289,7 @@ async function loadTasks() {
 
     $tasks.append($fragment);
 
+    //Obtenemos el contador de eliminadas
     if (localStorage.getItem("tasks") !== null) {
         let tasks = JSON.parse(localStorage.getItem("tasks"));
         deleteTasks = tasks.length;
@@ -277,6 +299,11 @@ async function loadTasks() {
 
 }
 
+/**
+ * Obtiene la tarea de la ID seleccionada
+ * @param int
+ * @return object
+ */
 async function getTaskById(id) {
     return await fetch("http://localhost:8080/tareas/" + id)
         .then((response) => {
@@ -291,6 +318,7 @@ async function getTaskById(id) {
         });
 }
 
+//Finalizar la tarea
 async function finishTask(event) {
     event.preventDefault();
     let taskId = event.target.dataset.id;
