@@ -1,28 +1,28 @@
 {
   "tareas": [
     {
-      "name": "Prueba 2",
-      "type": "Mejora",
-      "timecreate": "13/12/2022",
-      "timefinish": "13/12/2022",
-      "status": 1,
+      "name": "Tarea",
+      "type": "Tarea De Corto Alcance",
+      "timecreate": "19/12/2022",
+      "timefinish": "20/12/2022",
+      "status": 0,
       "id": 1
     },
     {
       "name": "Prueba",
       "type": "Tarea De Corto Alcance",
-      "timecreate": "18/12/2022",
-      "timefinish": "16/12/2022",
-      "status": 1,
-      "id": 3
+      "timecreate": "19/12/2022",
+      "timefinish": "20/12/2022",
+      "status": 0,
+      "id": 2
     },
     {
-      "name": "anita",
+      "name": "Test",
       "type": "Tarea De Corto Alcance",
-      "timecreate": "18/12/2022",
-      "timefinish": "26/12/2022",
-      "status": 0,
-      "id": 4
+      "timecreate": "19/12/2022",
+      "timefinish": "20/12/2022",
+      "status": 1,
+      "id": 3
     }
   ]
 }

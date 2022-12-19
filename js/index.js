@@ -68,13 +68,13 @@ async function init() {
         tasks.forEach(task => {
             let name = task.name;
 
-            //comprueba que el nombre contenga ese valor
-            if (name.includes(valor)) {
+            //Borra todas las tareas del HTML
+            while ($tasks.firstChild) {
+                $tasks.removeChild($tasks.lastChild);
+            }
 
-                //Borra todas las tareas del HTML
-                while ($tasks.firstChild) {
-                    $tasks.removeChild($tasks.lastChild);
-                }
+            //comprueba que el nombre contenga ese valor
+            if (name.toLowerCase().includes(valor.toLowerCase())) {
 
                 let $clonado = document.importNode($template, true);
 
@@ -102,6 +102,7 @@ async function init() {
                 //Clonar el template
                 $fragment.appendChild($clonado);
             }
+
         });
 
         $tasks.append($fragment);
@@ -368,8 +369,6 @@ async function editTask(event) {
 
         const status = verifyForm(formData);
 
-        console.log(status);
-
         try {
             const options = {
                 method: "PUT",
@@ -404,7 +403,7 @@ async function deleteTask(event) {
 
     let taskId = event.target.dataset.id;
 
-    let data = getTaskById(taskId);
+    let data = await getTaskById(taskId);
 
     if (localStorage.getItem("tasks") === null) {
         localStorage.setItem('tasks', JSON.stringify([data]));
@@ -413,6 +412,7 @@ async function deleteTask(event) {
         tasks.push(data);
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
+
 
     //Eliminar
     try {
